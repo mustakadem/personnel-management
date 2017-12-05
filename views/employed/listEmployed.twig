@@ -1,0 +1,52 @@
+{% extends 'layout.twig' %}
+
+{% block nav %}
+    <header>
+        <nav>
+            <a href="{{ 'employed/home' | url }}"><img src="{{ ''| url }}img/logo.png" class="logo" alt="logo de la pagina" width="100" height=100"></a>
+            <div class="title"><h2 >Gestion de Personal</h2></div>
+
+            <ul class="nav navbar-nav ">
+                <li class="conf"><a href=""><img src="{{ ''| url }}img/iconoConfiguracion.png" height="75" width="75"
+                                                 alt="configuracion"></a>
+                </li>
+                <li class="atras"><a href="{{ 'employed/home' | url }}"><img src="{{ ''| url }}img/iconoBack.png"
+                                                                             alt="atras" height="75" width="75"></a></li>
+            </ul>
+        </nav>
+    </header>
+{% endblock %}
+
+{% block content %}
+    <br>
+
+    <form class="form-inline my-2 my-lg-0 pull-right" id="form" method="POST" action="/employed/search/">
+        <input class="form-control mr-sm-2" type="text" name="userNameSearch" placeholder="Name User">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Job Position</th>
+            <th>Departament</th>
+            <th>Time</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in employed %}
+            <tr>
+                <td><a href="index/{{ user.id }}"><img src="{{ user.image }} " width="150" height="150"
+                                                       alt="Foto de {{ user.name }} "></a></td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.job_position }}</td>
+                <td>{{ user.departament }}</td>
+                <td>{{ user.time }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

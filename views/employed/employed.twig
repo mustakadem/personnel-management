@@ -1,0 +1,64 @@
+{% extends 'layout.twig' %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ '' | url }}css/employed.css">
+{% endblock %}
+
+{% block nav %}
+    <header>
+        <nav>
+            <a href="{{ 'employed/home' | url }}"><img src="{{ ''| url }}img/logo.png" class="logo" alt="logo de la pagina" height="100" width="100"></a>
+            <div class="title"><h2 >Gestion de Personal</h2></div>
+            <ul class="nav navbar-nav ">
+                <li><a href=""><img src="{{ ''| url }}img/iconoConfiguracion.png" height="75" width="75" alt="Configuracion"></a></li>
+                <li><a href="{{ 'employed/list' | url }}"><img src="{{ ''| url }}img/iconoBack.png" alt="atras" height="75" width="75"></a></li>
+            </ul>
+        </nav>
+    </header>
+{% endblock %}
+
+{% block content %}
+    <div class="header clearfix">
+        <h3 class="text-muted">{{ nameComplet }}</h3>
+    </div>
+
+    <div class="jumbotron">
+        <img src="{{ employed.image }}" width="250" height="250" alt="{{ employed.name }}">
+    </div>
+    <p><a class="btn btn-lg btn-success pull-left" href="/employed/edit/{{ employed.id }}" role="button">Update</a>
+    <form action="/employed/dlt/{{ employed.id }}" method="POST" id="deleteEmployed-{{ employed.id }}">
+    <input type="hidden" name="id" value="{{ employed.id }}">
+    <input type="hidden" name="_method" value="DELETE">
+        <button class="btn btn-lg btn-danger pull-right">Delete</button></form>
+    </p>
+    <br>
+    <div class="row marketing">
+        <br>
+        <div class="col-lg-6">
+            <u><h4>Personal Data</h4></u>
+            <br>
+            <strong>Address:</strong>
+            <p>{{ address }}</p>
+            <strong>Email:</strong>
+            <p>{{ emloyed.email }}</p>
+            <strong>Movil:</strong>
+            <p>{{ employed.movil }}</p>
+
+            <strong>Lasted Studies:</strong>
+            <p>{{ employed.lasted_studies }}</p>
+            <strong>Latest Job:</strong>
+            <p>{{ employed.lasted_job }}</p>
+        </div>
+        <div class="col-lg-6">
+            <u><h4>Professional Data</h4></u>
+            <br>
+            <strong>Job Position:</strong>
+            <p>{{ employed.job_position }}</p>
+            <strong>Departament:</strong>
+            <p>{{ employed.departament }}</p>
+            <strong>Time:</strong>
+            <p>{{ employed.time }}</p>
+        </div>
+    </div>
+
+{% endblock %}

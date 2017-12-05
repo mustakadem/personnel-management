@@ -1,0 +1,54 @@
+{% extends 'layout.twig' %}
+
+{% block nav %}
+    <header>
+        <nav>
+            <a href="{{ 'employed/home' | url }}"><img src="{{ ''| url }}img/logo.png" class="logo" alt="logo de la pagina" width="100"
+                                           height=100"></a>
+            <div class="title"><h2 >Gestion de Personal</h2></div>
+
+            <ul class="nav navbar-nav ">
+                <li class="conf"><a href=""><img src="{{ ''| url }}img/iconoConfiguracion.png" height="75" width="75"
+                                                 alt="configuracion"></a>
+                </li>
+                <li class="atras"><a href="{{ 'departament/list' | url }}"><img src="{{ ''| url }}img/iconoBack.png"
+                                                                                alt="atras" width="75" height="75"></a></li>
+            </ul>
+        </nav>
+    </header>
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="col-md-4">
+            <h3>Departament</h3>
+            <div class="form-group">
+                <p>Name: {{ departament.name }}</p>
+                <p>Plant: {{ departament.plant }}</p>
+                <p>Type: {{ departament.type }}</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <h3>Departament Data</h3>
+            <div class="form-group">
+                <p>Users in the department: </p>
+                <p>Created: {{ departament.created_at }}</p>
+                <p>Update: {{ departament.updated_at }}</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <h3>Departament Option</h3>
+            <div class="form-group">
+                <a class="btn btn-lg btn-success" href="/departament/edit/{{ departament.id }}" role="button">Update</a>
+                <form action="/departament/dlt/{{ departament.id }}" method="POST"
+                      id="deleteDepartament-{{ departament.id }}">
+                    <input type="hidden" name="id" value="{{ departament.id }}">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button class="btn btn-lg btn-danger ">Delete</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+

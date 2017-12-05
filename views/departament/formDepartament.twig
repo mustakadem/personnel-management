@@ -1,0 +1,61 @@
+{% extends 'layout.twig' %}
+
+{% block nav %}
+    <header>
+        <nav>
+            <a href="{{ 'employed/home' | url }}"><img src="{{ ''| url }}img/logo.png" class="logo" alt="logo de la pagina" width="100"
+                                           height=100"></a>
+            <div class="title"><h2 >Gestion de Personal</h2></div>
+
+            <ul class="nav navbar-nav ">
+                <li class="conf"><a href=""><img src="{{ ''| url }}img/iconoConfiguracion.png" height="75" width="75"
+                                                 alt="configuracion"></a>
+                </li>
+                <li class="atras"><a href="{{ 'employed/home' | url }}"><img src="{{ ''| url }}img/iconoBack.png"
+                                                                             alt="atras" height="75" width="75"></a></li>
+            </ul>
+        </nav>
+    </header>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>{{ info.subtitle }}</h1>
+        <form method="post">
+            <div class="form-group ">
+                <label for="inputName">Name</label>
+                <input type="text" id="inputName" class="form-control {% if errors['name'] %} has-error {% endif %}"
+                       name="departamentName" placeholder="Departament Name"
+                       value={{ departament.name }}>
+            </div>
+            <div class="form-group ">
+                <label for="inputPlant">Plant</label>
+                <input type="number" id="inputPlant" class="form-control {% if errors['name'] %} has-error {% endif %}"
+                       name="departamentPlant" placeholder="Departament Plant" min="0"
+                       value={{ departament.plant }}>
+            </div>
+            <div class="form-group {% if errors['departament'] %} has-error {% endif %}">
+                <label for="inputDepartament">Type</label>
+                <br>
+                <select name="departamentType" id="inputDepartament">
+                    <option value="option" selected>Selet</option>
+                    <option value="stewardship">
+                        Stewardship
+                    </option>
+                    <option value="marketing">
+                        Marketing
+                    </option>
+                    <option value="accounting">
+                        Accounting
+                    </option>
+                    <option value="Human Resources">
+                        Human Resources
+                    </option>
+                </select>
+            </div>
+            <input type="hidden" name="_method" value="{{ info.method }}">
+            <button class="btn btn-primary pull-right" type="submit">{{ info.submit }}</button>
+        </form>
+
+    </div>
+{% endblock %}

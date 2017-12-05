@@ -1,0 +1,40 @@
+{% extends 'layout.twig' %}
+
+{% block nav %}
+    <header>
+        <nav>
+            <a href="{{ 'employed/home' | url }}"><img src="{{ ''| url }}img/logo.png" class="logo" alt="logo de la pagina" width="100"
+                                           height=100"></a>
+            <h2>Gestion de Personal</h2>
+            <ul class="nav navbar-nav ">
+                <li class="conf"><a href=""><img src="{{ ''| url }}img/iconoConfiguracion.png" height="75" width="75"
+                                                 alt="configuracion"></a>
+                </li>
+                <li class="atras"><a href="{{ 'employed/home' | url }}"><img src="{{ ''| url }}img/iconoBack.png"
+                                                                             alt="atras" height="75" width="75"></a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+{% endblock %}
+{% block content %}
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Plant</th>
+            <th>Type</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for departament in departaments %}
+            <tr>
+                <td><a href="/departament/index/{{ departament.id }}">{{ departament.name }}</a></td>
+                <td>{{ departament.plant }}</td>
+                <td>{{ departament.type }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
