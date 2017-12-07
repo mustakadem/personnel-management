@@ -10,7 +10,7 @@ $baseDir = str_replace(
     $_SERVER['SCRIPT_NAME']);
 
 
-$baseUrl = "http://" . $_SERVER['HTTP_HOST'] . $baseDir;
+$baseUrl = "https://" . $_SERVER['HTTP_HOST'] . $baseDir;
 define('BASE_URL', $baseUrl);
 
 
