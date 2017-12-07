@@ -16,6 +16,7 @@ define('BASE_URL', $baseUrl);
 $dotenv = new Dotenv\Dotenv(__DIR__ . '/..');
 $dotenv->load();
 
+
 $capsule = new Capsule;
 $capsule->addConnection([
     'driver' => 'mysql',
