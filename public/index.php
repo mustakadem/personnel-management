@@ -3,17 +3,14 @@ require_once '../vendor/autoload.php';
 
 use Phroute\Phroute\RouteCollector;
 use Illuminate\Database\Capsule\Manager as Capsule;
+session_start();
 
-$baseDir = str_replace(
-    basename($_SERVER['SCRIPT_NAME']),
-    '',
-    $_SERVER['SCRIPT_NAME']);
+$baseDir = str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
 
-
-$baseUrl = "https://" . $_SERVER['HTTP_HOST'] . $baseDir;
+$baseUrl = $_SERVER['HTTP_HOST'] . $baseDir;
+$protocol = (strpos($baseUrl, 'heroku')) ? "https://" : "http://";
+$baseUrl = $protocol.$baseUrl;
 define('BASE_URL', $baseUrl);
-
-
 
 if (file_exists(__DIR__.'/../.env')){
     $dotenv = new Dotenv\Dotenv(__DIR__ . '/..');
@@ -41,7 +38,7 @@ $router = new RouteCollector();
 $router->controller('/', App\Controllers\HomeController::class);
 $router->controller('/employed', App\Controllers\EmployedController::class);
 $router->controller('/departament', App\Controllers\DepartamentController::class);
-
+$router->controller('/user', App\Controllers\UserController::class);
 
 $dispatcher = new Phroute\Phroute\Dispatcher($router->getData());
 

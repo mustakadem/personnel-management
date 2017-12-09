@@ -4,31 +4,36 @@
 {% block nav %}
     <header>
         <nav>
-            <a href="{{ 'employed/home' | url }}"><img src="{{ ''| url }}img/logo.png" class="logo" alt="logo de la pagina" width="100" height=100"></a>
-            <div class="title"><h2 >Gestion de Personal</h2></div>
+            <a href="{{ 'employed/home' | url }}"><img src="{{ ''| url }}img/logo.png" class="logo"
+                                                       alt="logo de la pagina" width="100" height=100"></a>
+            <div class="title"><h2>Gestion de Personal</h2></div>
 
             <ul class="nav navbar-nav ">
                 <li class="conf"><a href=""><img src="{{ ''| url }}img/iconoConfiguracion.png" height="75" width="75"
                                                  alt="configuracion"></a>
                 </li>
                 <li class="close"><a href="{{ '/' | url }}"><img src="{{ ''| url }}img/iconoClose.png"
-                                                                             alt="atras" height="75" width="75"></a>
+                                                                 alt="atras" height="75" width="75"></a>
                 </li>
-            </ul>        </nav>
+                {% if session.userId %}
+                <li>Bienvenido {{ session.userName }}</li>
+                {% endif %}
+            </ul>
+        </nav>
     </header>
 {% endblock %}
 
 {% block content %}
 
-        <div class="col-md-12 homeUser">
-                <img src="{{ ''| url }}img/usuario_icono.png" alt="icono de usuario" height="110" width="110">
-                <a href="{{ 'employed/add' | url }}"><p>Crear Usuario De Un Empleado</p></a>
-                <img src="{{ ''| url }}img/icono_lista.png" alt="icono de usuario" height="110" width="110">
-                <a href="{{ 'employed/list' | url }}"><p>Listar  Empleados</p></a>
-                <img src="{{ ''| url }}img/icono_departamento.png" alt="icono de Departamentos" height="100" width="100">
-                <a href="{{ 'departament/add' | url }}"><p>Crear Departamento</p></a>
-                <img src="{{ ''| url }}img/icono_listaDepartamentos.png" alt="icono de Departamentos" height="120" width="100">
-                <a href="{{ 'departament/list' | url }}"><p>Listar Departamentos</p></a>
-        </div>
+    <div class="col-md-12 homeUser">
+        <img src="{{ ''| url }}img/usuario_icono.png" alt="icono de usuario" height="110" width="110">
+        <a href="{{ 'employed/add' | url }}"><p>Crear Usuario De Un Empleado</p></a>
+        <img src="{{ ''| url }}img/icono_lista.png" alt="icono de usuario" height="110" width="110">
+        <a href="{{ 'employed/list' | url }}"><p>Listar Empleados</p></a>
+        <img src="{{ ''| url }}img/icono_departamento.png" alt="icono de Departamentos" height="100" width="100">
+        <a href="{{ 'departament/add' | url }}"><p>Crear Departamento</p></a>
+        <img src="{{ ''| url }}img/icono_listaDepartamentos.png" alt="icono de Departamentos" height="120" width="100">
+        <a href="{{ 'departament/list' | url }}"><p>Listar Departamentos</p></a>
+    </div>
 
 {% endblock %}

@@ -97,7 +97,7 @@ class DepartamentController extends BaseController
             'title' => 'Update',
             'subtitle' => 'Update Departament',
             'submit' => 'update',
-            'method' => 'PUT'
+            'method' => 'POST'
         ];
         $errors = array();
 
@@ -119,7 +119,7 @@ class DepartamentController extends BaseController
             'title' => 'Update Departament',
             'subtitle' => 'Update New Departament',
             'submit' => 'Update Departament',
-            'method' => 'POST'
+            'method' => 'PUT'
         ];
 
         if (!empty($_POST)) {
@@ -164,7 +164,7 @@ class DepartamentController extends BaseController
         $departament = Departament::find($id);
 
         if (!$departament) {
-            return $this->render('listDepartament.twig', []);
+            return $this->render('departament/listDepartament.twig', []);
         }
 
         return $this->render('departament/departament.twig', [

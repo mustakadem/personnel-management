@@ -3,12 +3,14 @@
 {% block nav %}
     <header>
         <nav>
-            <a href="{{ 'employed/home' | url }}"><img src="{{ ''| url }}img/logo.png" class="logo" alt="logo de la pagina" width="100" height=100"></a>
-            <div class="title"><h2 >Gestion de Personal</h2></div>
+            <a href="{{ 'employed/home' | url }}"><img src="{{ ''| url }}img/logo.png" class="logo"
+                                                       alt="logo de la pagina" width="100" height=100"></a>
+            <div class="title"><h2>Gestion de Personal</h2></div>
 
             <ul class="nav navbar-nav ">
                 <li class="atras"><a href="{{ 'employed/home' | url }}"><img src="{{ ''| url }}img/iconoBack.png"
-                                                                             alt="atras" height="75" width="75"></a></li>
+                                                                             alt="atras" height="75" width="75"></a>
+                </li>
             </ul>
         </nav>
     </header>
@@ -21,16 +23,16 @@
         <form method="post">
             <div class="col-md-4">
                 <h3>Personal Data</h3>
-                <div class="form-group ">
+                <div class="form-group {% if errors['name'] %} has-error {% endif %}">
                     <label for="inputName">Name</label>
-                    <input type="text" id="inputName" class="form-control {% if errors['name'] %} has-error {% endif %}"
+                    <input type="text" id="inputName" class="form-control"
                            name="employedName" placeholder="User Name"
                            value={{ employed.name }}>
                 </div>
-                <div class="form-group ">
+                <div class="form-group  {% if errors['surnames'] %} has-error {% endif %}">
                     <label for="inputSurnames">Surnames</label>
                     <input type="text" id="inputSurnames"
-                           class=" form-control {% if errors['surnames'] %} has-error {% endif %}"
+                           class=" form-control"
                            name="employedSurnames"
                            placeholder="User Surnames"
                            value={{ employed.surnames }}>
@@ -49,31 +51,31 @@
             </div>
             <div class="col-md-4">
                 <h3>Contact Data</h3>
-                <div class="form-group">
+                <div class="form-group  {% if errors['address'] %} has-error {% endif %}">
                     <label for="inputAddress">Address</label>
                     <input type="text" id="inputAddress"
-                           class=" form-control {% if errors['address'] %} has-error {% endif %}"
+                           class=" form-control"
                            name="employedAddress"
                            placeholder="User Address"
                            value={{ employed.address }}>
                 </div>
-                <div class="form-group ">
+                <div class="form-group  {% if errors['postcode'] %} has-error {% endif %}">
                     <label for="inputPostcode">Postcode</label>
                     <input type="text" id="inputPostcode"
-                           class="form-control {% if errors['postcode'] %} has-error {% endif %}"
+                           class="form-control"
                            name="employedPostcode"
                            placeholder="User Postcode"
                            value={{ employed.postcode }}>
                 </div>
-                <div class="form-group  ">
+                <div class="form-group  {% if  errors['email'] %}has-error{% endif %} ">
                     <label for="inputEmail">Email</label>
                     <input type="email" id="inputEmail" name="employedEmail"
-                           class="form-control {% if  errors['email'] %}has-error{% endif %}" placeholder="User Email"
+                           class="form-control" placeholder="User Email"
                            value={{ employed.email }}>
                 </div>
-                <div class="form-group">
+                <div class="form-group  {% if errors['movil'] %} has-error {% endif %}">
                     <label for="inputMovil">movil</label>
-                    <input type="number" class=" form-control {% if errors['movil'] %} has-error {% endif %}"
+                    <input type="number" class=" form-control"
                            id="inputMovil"
                            name="employedMovil" placeholder="User movil"
                            value={{ employed.movil }}>
@@ -88,29 +90,18 @@
                            placeholder="User Image URL"
                            value={{ employed.image }}>
                 </div>
-                <div class="form-group ">
+                <div class="form-group {% if errors['job_position'] %} has-error {% endif %}">
                     <label for="inputJobPosition">Job Position</label>
-                    <input type="text" class="form-control {% if errors['job_position'] %} has-error {% endif %}"
+                    <input type="text" class="form-control "
                            id="inputJobPosition" name="employedJobPosition"
                            placeholder="User Job Position" value={{ employed.job_position }}>
                 </div>
                 <div class="form-group {% if errors['departament'] %} has-error {% endif %}">
                     <label for="inputDepartament">Departament</label>
-
-                    <select name="employedDepartament" id="inputDepartament">
-                        <option value="option" selected>Selet</option>
-                        <option value="stewardship">
-                            Stewardship
-                        </option>
-                        <option value="marketing">
-                            Marketing
-                        </option>
-                        <option value="accounting">
-                            Accounting
-                        </option>
-                        <option value="Human Resources">
-                            Human Resources
-                        </option>
+                    <select class="form-control" name="selectDepartament">
+                    {% for departament in departaments %}
+                        {{ generateSelectDepartament(departament.name,employed.idDepartament,departament.id) }}
+                    {% endfor %}
                     </select>
                 </div>
                 <div class="form-group {% if errors['time'] %}has-error {% endif %}">
