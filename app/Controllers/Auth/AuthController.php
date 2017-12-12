@@ -28,7 +28,7 @@ class AuthController extends BaseController{
         ];
 
         $passInput= htmlspecialchars(trim($_POST['userPass']));
-        echo "paso 1";
+        //echo "paso 1";
         $validador = new Validator();
 
         $validador->add('userEmail','required',[],'El campo Email es Requerido');
@@ -36,15 +36,20 @@ class AuthController extends BaseController{
         $validador->add('userPass','required',[],'El campo Password es Requerido');
 
         if ($validador->validate($_POST)){
-            echo "paso 2";
+            //echo "paso 2";
             $user = User::where('email',$_POST['userEmail'])->first();
-            if (password_verify($passInput,$user->password)){
-                echo "paso 3";
+            $pass = $user->password;
+            //echo $pass;
+            if (password_verify($passInput,$pass)){
+                //echo "paso 3";
                 $_SESSION['userId']= $user->id;
                 $_SESSION['userName']= $user->name;
                 $_SESSION['userEmail']=$user->email;
 
                 header('Location: home');
+            }else{
+                var_dump($pass);
+                die();
             }
 
             $validador->addMessage('authError','Los datos son incorrectos');

@@ -47,6 +47,11 @@ class RegisterController extends BaseController
 
             $user->save();
 
+
+            $_SESSION['userId']= $user->id;
+            $_SESSION['userName']= $user->name;
+            $_SESSION['userEmail']=$user->email;
+
             header('Location: /user/home');
         }else{
             $errors = $validator->getMessages();

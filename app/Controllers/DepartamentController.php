@@ -66,7 +66,7 @@ class DepartamentController extends BaseController
                 $departament->save();
 
                 // Si se guarda sin problemas se redirecciona la aplicación a la página de inicio
-                header('Location: departament/list');
+                header('Location: list');
             } else {
 
                 $errors = $validator->getMessages();
