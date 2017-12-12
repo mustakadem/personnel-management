@@ -82,6 +82,10 @@ input{
 }
 
 
+input{
+    border: 1px dotted #999;
+    border-radius: 0;
+}
 
 /**
     CSS FOOTER

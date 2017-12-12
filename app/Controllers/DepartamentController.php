@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\Departament;
+use App\Models\Employed;
+use App\Models\User;
 use Sirius\Validation\Validator;
 
 class DepartamentController extends BaseController
@@ -20,7 +22,7 @@ class DepartamentController extends BaseController
         $errors = array();
 
         $departament = array_fill_keys(["name", "type", "plant"], "");
-        $types= ['stewardship','marketing','accounting','Human Resources'];
+        $types = ['stewardship', 'marketing', 'accounting', 'Human Resources'];
 
         return $this->render('departament/formDepartament.twig', [
             'types' => $types,
@@ -39,7 +41,7 @@ class DepartamentController extends BaseController
             'submit' => 'Add Departament',
             'method' => 'POST'
         ];
-        $types= ['stewardship','marketing','accounting','Human Resources'];
+        $types = ['stewardship', 'marketing', 'accounting', 'Human Resources'];
         if (!empty($_POST)) {
 
             //Validamos los errores
@@ -49,9 +51,9 @@ class DepartamentController extends BaseController
             $requiredFileMessageError = "El Campo {label} es requerido";
             $validator->add('departamentName:Nombre', 'required', [], $requiredFileMessageError);
             $validator->add('departamentPlant:Plant', 'required', [], $requiredFileMessageError);
-             if ($_POST['departamentType']=="Select") {
-                 $validator->add('departamentType:Type', 'required', [], $requiredFileMessageError);
-             }
+            if ($_POST['departamentType'] == "Select") {
+                $validator->add('departamentType:Type', 'required', [], $requiredFileMessageError);
+            }
             $departament['name'] = htmlspecialchars(trim($_POST['departamentName']));
             $departament['plant'] = htmlspecialchars(trim($_POST['departamentPlant']));
             $departament['type'] = htmlspecialchars(trim($_POST['departamentType']));
@@ -110,7 +112,7 @@ class DepartamentController extends BaseController
         $errors = array();
 
         $departament = Departament::find($id);
-        $types= ['stewardship','marketing','accounting','Human Resources'];
+        $types = ['stewardship', 'marketing', 'accounting', 'Human Resources'];
 
         if (!$departament) {
             header('Location: departament/list');
@@ -133,7 +135,7 @@ class DepartamentController extends BaseController
             'method' => 'PUT'
         ];
 
-        $types= ['stewardship','marketing','accounting','Human Resources'];
+        $types = ['stewardship', 'marketing', 'accounting', 'Human Resources'];
         $errors = array();
         if (!empty($_POST)) {
 
@@ -168,7 +170,7 @@ class DepartamentController extends BaseController
             }
         }
         return $this->render('departament/formDepartament.twig', [
-            'types'=> $types,
+            'types' => $types,
             'departament' => $departament,
             'errors' => $errors,
             'info' => $info
@@ -179,20 +181,39 @@ class DepartamentController extends BaseController
     {
         $departament = Departament::find($id);
 
+        $total = Employed::where('idDepartament', $departament['id'])->count();
+
         if (!$departament) {
             return $this->render('departament/listDepartament.twig', []);
         }
 
         return $this->render('departament/departament.twig', [
             'departament' => $departament,
+            'total' => $total
         ]);
     }
 
     public function deleteDlt($id)
     {
-        $departament = Departament::destroy($id);
-        header("Location: " . BASE_URL);
+        $departament = Departament::find($id);
+        $total = Employed::where('idDepartament', $departament['id'])->count();
+        if ($total <= 0) {
+            $departament = Departament::destroy($id);
+            header("Location: /departament/list");
+        }else{
+            $info=[
+                'page' => 'Departamento',
+                'error' => 'El departamento que desea borrar contiene Empleados, elimine o cambie a los empleados de departamento',
+                'consuelo' => 'Todo se arregla pulsando atras'
+            ];
+
+            $this->render('user/homeUser.twig',[
+                'info' => $info
+            ]);
+        }
     }
+
+
 
 
 }

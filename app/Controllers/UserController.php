@@ -12,6 +12,8 @@
          return $this->render('user/homeUser.twig',[]);
      }
 
+
+
      public function getLogin(){
          $auth = new AuthController();
 
@@ -40,5 +42,22 @@
          $auth = new AuthController();
 
          return $auth->getLogout();
+     }
+
+     public function getConf(){
+         $info=[
+             'subtitle' => 'Edit user configurations',
+             'submit' => 'CONF'
+         ];
+        if (isset($_SESSION['userId'])) {
+            $user = User::find($_SESSION['userId']);
+        }else{
+            header('Location:'.BASE_URL);
+        }
+
+         $this->render('user/configurations.twig',[
+             'info' => $info,
+             'user' => $user
+         ]);
      }
  }
