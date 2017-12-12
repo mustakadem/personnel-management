@@ -1,13 +1,13 @@
 {% extends 'layout.twig' %}
-
 {% block css %}
+    <link rel="stylesheet" href="{{ '' | url }}css/app.css">
     <link rel="stylesheet" href="{{ '' | url }}css/employed.css">
 {% endblock %}
 
 {% block nav %}
     <header>
         <nav>
-            <a href="{{ 'employed/home' | url }}"><img src="{{ ''| url }}img/logo.png" class="logo" alt="logo de la pagina" height="100" width="100"></a>
+            <a href="{{ 'user/home' | url }}"><img src="{{ ''| url }}img/logo.png" class="logo" alt="logo de la pagina" height="100" width="100"></a>
             <div class="title"><h2 >Gestion de Personal</h2></div>
             <ul class="nav navbar-nav ">
                 <li><a href="{{ 'employed/list' | url }}"><img src="{{ ''| url }}img/iconoBack.png" alt="atras" height="75" width="75"></a></li>
@@ -25,7 +25,7 @@
         <img src="{{ employed.image }}" width="250" height="250" alt="{{ employed.name }}">
     </div>
     <p><a class="btn btn-lg btn-success pull-left" href="/employed/edit/{{ employed.id }}" role="button">Update</a>
-    <form action="/employed/dlt/{{ employed.id }}" method="POST" id="deleteEmployed-{{ employed.id }}">
+    <form action="/employed/dlt" method="POST" id="deleteEmployed-{{ employed.id }}">
     <input type="hidden" name="id" value="{{ employed.id }}">
     <input type="hidden" name="_method" value="DELETE">
         <button class="btn btn-lg btn-danger pull-right">Delete</button></form>
@@ -55,8 +55,6 @@
             <p>{{ employed.job_position }}</p>
             <strong>Departament:</strong>
             <p>{{ employed.departament }}</p>
-            <strong>Time:</strong>
-            <p>{{ employed.time }}</p>
         </div>
     </div>
 

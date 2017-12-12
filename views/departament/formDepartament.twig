@@ -1,15 +1,18 @@
 {% extends 'layout.twig' %}
-
+{% block css %}
+    <link rel="stylesheet" href="{{ '' | url }}css/app.css">
+{% endblock %}
 {% block nav %}
     <header>
         <nav>
-            <a href="{{ 'employed/home' | url }}"><img src="{{ ''| url }}img/logo.png" class="logo" alt="logo de la pagina" width="100"
-                                           height=100"></a>
-            <div class="title"><h2 >Gestion de Personal</h2></div>
+            <a href="{{ 'user/home' | url }}"><img src="{{ ''| url }}img/logo.png" class="logo" alt="logo de la pagina"
+                                                   width="100"
+                                                   height=100"></a>
+            <div class="title"><h2>Gestion de Personal</h2></div>
 
             <ul class="nav navbar-nav ">
-                <li class="atras"><a href="{{ 'employed/home' | url }}"><img src="{{ ''| url }}img/iconoBack.png"
-                                                                             alt="atras" height="75" width="75"></a></li>
+                <li class="atras"><a href="{{ 'user/home' | url }}"><img src="{{ ''| url }}img/iconoBack.png"
+                                                                         alt="atras" height="75" width="75"></a></li>
             </ul>
         </nav>
     </header>
@@ -21,35 +24,35 @@
         <form method="post">
             <div class="form-group ">
                 <label for="inputName">Name</label>
-                <input type="text" id="inputName" class="form-control {% if errors['name'] %} has-error {% endif %}"
+                <input type="text" id="inputName"
+                       class="form-control {% if errors['departamentName'] %} has-error {% endif %}"
                        name="departamentName" placeholder="Departament Name"
                        value={{ departament.name }}>
             </div>
+            {{ generateAlert(errors, 'departamentName') }}
             <div class="form-group ">
                 <label for="inputPlant">Plant</label>
-                <input type="number" id="inputPlant" class="form-control {% if errors['name'] %} has-error {% endif %}"
+                <input type="number" id="inputPlant"
+                       class="form-control {% if errors['departamentPlant'] %} has-error {% endif %}"
                        name="departamentPlant" placeholder="Departament Plant" min="0"
                        value={{ departament.plant }}>
             </div>
-            <div class="form-group {% if errors['departament'] %} has-error {% endif %}">
+            {{ generateAlert(errors, 'departamentPlant') }}
+
+            <div class="form-group {% if errors['departamentType'] %} has-error {% endif %}">
                 <label for="inputDepartament">Type</label>
                 <br>
+
                 <select name="departamentType" id="inputDepartament">
-                    <option value="option" selected>Selet</option>
-                    <option value="stewardship">
-                        Stewardship
-                    </option>
-                    <option value="marketing">
-                        Marketing
-                    </option>
-                    <option value="accounting">
-                        Accounting
-                    </option>
-                    <option value="Human Resources">
-                        Human Resources
-                    </option>
+                    {% for type in types %}
+                    {{ generateSelectDepartament(type,departament.type,type) }}
+                    {% endfor %}
                 </select>
+
             </div>
+            {{ generateAlert(errors, 'departamentType') }}
+
+            {{ generateAlert(errors, 'departamentType') }}
             <input type="hidden" name="_method" value="{{ info.method }}">
             <button class="btn btn-primary pull-right" type="submit">{{ info.submit }}</button>
         </form>

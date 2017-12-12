@@ -1,14 +1,16 @@
 {% extends "layout.twig" %}
-
+{% block css %}
+    <link rel="stylesheet" href="{{ '' | url }}css/app.css">
+{% endblock %}
 {% block nav %}
     <header>
         <nav>
-            <a href="{{ 'employed/home' | url }}"><img src="{{ ''| url }}img/logo.png" class="logo"
+            <a href="{{ 'user/home' | url }}"><img src="{{ ''| url }}img/logo.png" class="logo"
                                                        alt="logo de la pagina" width="100" height=100"></a>
             <div class="title"><h2>Gestion de Personal</h2></div>
 
             <ul class="nav navbar-nav ">
-                <li class="atras"><a href="{{ 'employed/home' | url }}"><img src="{{ ''| url }}img/iconoBack.png"
+                <li class="atras"><a href="{{ 'user/home' | url }}"><img src="{{ ''| url }}img/iconoBack.png"
                                                                              alt="atras" height="75" width="75"></a>
                 </li>
             </ul>
@@ -23,13 +25,14 @@
         <form method="post">
             <div class="col-md-4">
                 <h3>Personal Data</h3>
-                <div class="form-group {% if errors['name'] %} has-error {% endif %}">
+                <div class="form-group {% if errors['employedName'] %} has-error {% endif %}">
                     <label for="inputName">Name</label>
                     <input type="text" id="inputName" class="form-control"
                            name="employedName" placeholder="User Name"
                            value={{ employed.name }}>
                 </div>
-                <div class="form-group  {% if errors['surnames'] %} has-error {% endif %}">
+                {{ generateAlert(errors, 'employedName') }}
+                <div class="form-group  {% if errors['employedSurnames'] %} has-error {% endif %}">
                     <label for="inputSurnames">Surnames</label>
                     <input type="text" id="inputSurnames"
                            class=" form-control"
@@ -37,6 +40,7 @@
                            placeholder="User Surnames"
                            value={{ employed.surnames }}>
                 </div>
+                {{ generateAlert(errors, 'employedSurnames') }}
                 <div class="form-group ">
                     <label for="inputLatestStudies">Latest Studies</label>
                     <input type="text" id="inputLatestStudies" class="form-control" name="employedLastedStudies"
@@ -51,7 +55,7 @@
             </div>
             <div class="col-md-4">
                 <h3>Contact Data</h3>
-                <div class="form-group  {% if errors['address'] %} has-error {% endif %}">
+                <div class="form-group  {% if errors['employedAddress'] %} has-error {% endif %}">
                     <label for="inputAddress">Address</label>
                     <input type="text" id="inputAddress"
                            class=" form-control"
@@ -59,7 +63,9 @@
                            placeholder="User Address"
                            value={{ employed.address }}>
                 </div>
-                <div class="form-group  {% if errors['postcode'] %} has-error {% endif %}">
+                {{ generateAlert(errors, 'employedAddress') }}
+
+                <div class="form-group  {% if errors['employedPostcode'] %} has-error {% endif %}">
                     <label for="inputPostcode">Postcode</label>
                     <input type="text" id="inputPostcode"
                            class="form-control"
@@ -67,19 +73,23 @@
                            placeholder="User Postcode"
                            value={{ employed.postcode }}>
                 </div>
-                <div class="form-group  {% if  errors['email'] %}has-error{% endif %} ">
+                {{ generateAlert(errors, 'employedPostcode') }}
+                <div class="form-group  {% if  errors['employedEmail'] %}has-error{% endif %} ">
                     <label for="inputEmail">Email</label>
                     <input type="email" id="inputEmail" name="employedEmail"
                            class="form-control" placeholder="User Email"
                            value={{ employed.email }}>
                 </div>
-                <div class="form-group  {% if errors['movil'] %} has-error {% endif %}">
+                {{ generateAlert(errors, 'employedEmail') }}
+
+                <div class="form-group  {% if errors['employedMovil'] %} has-error {% endif %}">
                     <label for="inputMovil">movil</label>
                     <input type="number" class=" form-control"
                            id="inputMovil"
                            name="employedMovil" placeholder="User movil"
                            value={{ employed.movil }}>
                 </div>
+                {{ generateAlert(errors, 'employedMovil') }}
             </div>
 
             <div class="col-md-4">
@@ -90,28 +100,23 @@
                            placeholder="User Image URL"
                            value={{ employed.image }}>
                 </div>
-                <div class="form-group {% if errors['job_position'] %} has-error {% endif %}">
+                <div class="form-group {% if errors['employedJobPosition'] %} has-error {% endif %}">
                     <label for="inputJobPosition">Job Position</label>
                     <input type="text" class="form-control "
                            id="inputJobPosition" name="employedJobPosition"
                            placeholder="User Job Position" value={{ employed.job_position }}>
                 </div>
-                <div class="form-group {% if errors['departament'] %} has-error {% endif %}">
+                {{ generateAlert(errors, 'employedJobPosition') }}
+
+                <div class="form-group {% if errors['selectDepartament'] %} has-error {% endif %}">
                     <label for="inputDepartament">Departament</label>
                     <select class="form-control" name="selectDepartament">
                     {% for departament in departaments %}
-                        {{ generateSelectDepartament(departament.name,employed.idDepartament,departament.id) }}
+                        {{ generateSelectDepartament(departament.name,employed.departament,departament.id) }}
                     {% endfor %}
                     </select>
                 </div>
-                <div class="form-group {% if errors['time'] %}has-error {% endif %}">
-                    <label for="inputTime">Time</label>
-                    <select name="employedTime" id="inputTime">
-                        <option value="option" selected>Turn</option>
-                        <option value="tarde">Tarde</option>
-                        <option value="mañana">Mañana</option>
-                    </select>
-                </div>
+                {{ generateAlert(errors, 'selectDepartament') }}
             </div>
             <input type="hidden" name="_method" value="{{ info.method }}">
             <button class="btn btn-primary pull-right" type="submit">{{ info.submit }}</button>
