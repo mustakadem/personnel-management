@@ -12,7 +12,4 @@ class HomeController extends BaseController {
         return $this->render('home.twig',[]);
     }
 
-    public function getContacto(){
-        return 'Información de contacto';
-    }
 }
