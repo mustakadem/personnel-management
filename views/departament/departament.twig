@@ -29,7 +29,7 @@
         <div class="col-md-4">
             <h3>Departament Data</h3>
             <div class="form-group">
-                <p>Users in the department: </p>
+                <p>Users in the department: {{ total }}</p>
                 <p>Created: {{ departament.created_at }}</p>
                 <p>Update: {{ departament.updated_at }}</p>
             </div>
@@ -46,7 +46,6 @@
                 </form>
             </div>
         </div>
-
     </div>
 {% endblock %}
 

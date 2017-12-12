@@ -17,20 +17,20 @@
 {% block content %}
     <h1>{{ info.subtitle }}</h1>
     <form class="formLogin" method="POST" action="{{ 'user/registro' | url }}">
-        <div class="col-xs-3 form-group  {% if errors['name'] %} has-error {% endif %}">
+        <div class="form-group  {% if errors['name'] %} has-error {% endif %}">
             <label for="inputEmail">Name</label>
-            <input type="text" id="inputName" class="form-control mb-2 mb-sm-0"
+            <input type="text" id="inputName" class="form-control"
                    name="userName" placeholder="User Name" autofocus>
         </div>
         {{ generateAlert(errors, 'userName') }}
-        <div class="col-xs-3 form-group  {% if errors['email'] %} has-error {% endif %}">
+        <div class=" form-group  {% if errors['email'] %} has-error {% endif %}">
             <label for="inputEmail">email</label>
-            <input type="email" id="inputEmail" class="form-control mb-2 mb-sm-0"
+            <input type="email" id="inputEmail" class="form-control "
                    name="userEmail" placeholder="User Email" autofocus>
         </div>
         {{ generateAlert(errors, 'userEmail') }}
 
-        <div class="col-xs-3 form-group  {% if errors['password'] %} has-error {% endif %}">
+        <div class=" form-group  {% if errors['password'] %} has-error {% endif %}">
             <label for="inputPass">Password</label>
             <input type="password" id="inputPass"
                    class=" form-control"
@@ -38,7 +38,7 @@
                    placeholder="User Password">
         </div>
         {{ generateAlert(errors, 'userPass') }}
-        <div class="col-xs-3 form-group  {% if errors['password2'] %} has-error {% endif %}">
+        <div class=" form-group  {% if errors['password2'] %} has-error {% endif %}">
             <label for="inputPass2">Repeat Password</label>
             <input type="password" id="inputPass2"
                    class=" form-control"
