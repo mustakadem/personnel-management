@@ -20,8 +20,10 @@ class DepartamentController extends BaseController
         $errors = array();
 
         $departament = array_fill_keys(["name", "type", "plant"], "");
+        $types= ['stewardship','marketing','accounting','Human Resources'];
 
         return $this->render('departament/formDepartament.twig', [
+            'types' => $types,
             'departament' => $departament,
             'errors' => $errors,
             'info' => $info
@@ -37,7 +39,7 @@ class DepartamentController extends BaseController
             'submit' => 'Add Departament',
             'method' => 'POST'
         ];
-
+        $types= ['stewardship','marketing','accounting','Human Resources'];
         if (!empty($_POST)) {
 
             //Validamos los errores
@@ -47,8 +49,9 @@ class DepartamentController extends BaseController
             $requiredFileMessageError = "El Campo {label} es requerido";
             $validator->add('departamentName:Nombre', 'required', [], $requiredFileMessageError);
             $validator->add('departamentPlant:Plant', 'required', [], $requiredFileMessageError);
-            $validator->add('departamentType:Type', 'required', [], $requiredFileMessageError);
-
+             if ($_POST['departamentType']=="Select") {
+                 $validator->add('departamentType:Type', 'required', [], $requiredFileMessageError);
+             }
             $departament['name'] = htmlspecialchars(trim($_POST['departamentName']));
             $departament['plant'] = htmlspecialchars(trim($_POST['departamentPlant']));
             $departament['type'] = htmlspecialchars(trim($_POST['departamentType']));
@@ -63,20 +66,22 @@ class DepartamentController extends BaseController
                 $departament->save();
 
                 // Si se guarda sin problemas se redirecciona la aplicación a la página de inicio
-                header('Location: '. BASE_URL);
+                header('Location: departament/list');
             } else {
 
                 $errors = $validator->getMessages();
             }
         }
-         return $this->render('departament/formDepartament.twig',[
-             'departament' => $departament,
-             'errors' => $errors,
-             'info' => $info
-         ]);
+        return $this->render('departament/formDepartament.twig', [
+            'types' => $types,
+            'departament' => $departament,
+            'errors' => $errors,
+            'info' => $info
+        ]);
     }
 
-    public function getList(){
+    public function getList()
+    {
         $info = [
             'title' => 'List Departaments',
             'subtitle' => 'List Departaments',
@@ -92,29 +97,35 @@ class DepartamentController extends BaseController
         ]);
     }
 
-    public function getEdit($id){
+    public function getEdit($id)
+    {
         $info = [
             'title' => 'Update',
             'subtitle' => 'Update Departament',
             'submit' => 'update',
-            'method' => 'POST'
+            'method' => 'PUT'
         ];
+
+
         $errors = array();
 
         $departament = Departament::find($id);
+        $types= ['stewardship','marketing','accounting','Human Resources'];
 
         if (!$departament) {
-            header('Location: listDepartament.twig');
+            header('Location: departament/list');
         }
 
         return $this->render('departament/formDepartament.twig', [
+            'types' => $types,
             'departament' => $departament,
             'errors' => $errors,
             'info' => $info
         ]);
     }
 
-    public function putEdit($id){
+    public function putEdit($id)
+    {
         $info = [
             'title' => 'Update Departament',
             'subtitle' => 'Update New Departament',
@@ -122,6 +133,8 @@ class DepartamentController extends BaseController
             'method' => 'PUT'
         ];
 
+        $types= ['stewardship','marketing','accounting','Human Resources'];
+        $errors = array();
         if (!empty($_POST)) {
 
             //Validamos los errores
@@ -133,7 +146,8 @@ class DepartamentController extends BaseController
             $validator->add('departamentPlant:Plant', 'required', [], $requiredFileMessageError);
             $validator->add('departamentType:Type', 'required', [], $requiredFileMessageError);
 
-            $departament['id'] =$id;
+
+            $departament['id'] = $id;
             $departament['name'] = htmlspecialchars(trim($_POST['departamentName']));
             $departament['plant'] = htmlspecialchars(trim($_POST['departamentPlant']));
             $departament['type'] = htmlspecialchars(trim($_POST['departamentType']));
@@ -147,20 +161,22 @@ class DepartamentController extends BaseController
                 ]);
 
                 // Si se guarda sin problemas se redirecciona la aplicación a la página de inicio
-                header('Location: '. BASE_URL);
+                header('Location: /departament/list');
             } else {
 
                 $errors = $validator->getMessages();
             }
         }
-        return $this->render('departament/formDepartament.twig',[
+        return $this->render('departament/formDepartament.twig', [
+            'types'=> $types,
             'departament' => $departament,
             'errors' => $errors,
             'info' => $info
         ]);
     }
 
-    public function getIndex($id){
+    public function getIndex($id)
+    {
         $departament = Departament::find($id);
 
         if (!$departament) {
@@ -172,7 +188,8 @@ class DepartamentController extends BaseController
         ]);
     }
 
-    public function deleteDlt($id){
+    public function deleteDlt($id)
+    {
         $departament = Departament::destroy($id);
         header("Location: " . BASE_URL);
     }

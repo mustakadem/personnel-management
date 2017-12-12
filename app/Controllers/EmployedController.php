@@ -30,7 +30,7 @@ class EmployedController extends BaseController
 
         $errors = array();
         // En employed se crea un array asociativo con las siquientes keys .
-        $employed = array_fill_keys(["name", "surnames", "address", "postcode", "email", "movil", "idDepartament","lasted_studies", "lasted_job", "job_position", "time", "image"], "");
+        $employed = array_fill_keys(["name", "surnames", "address", "postcode", "email", "movil", "idDepartament","lasted_studies", "lasted_job", "job_position", "image","departament"], "");
         $departaments = Departament::query()->orderBy('id', 'desc')->get();
 
         return $this->render('employed/formEmployed.twig', [
@@ -65,7 +65,6 @@ class EmployedController extends BaseController
             $validator->add('employedMovil:Movil', 'required', [], $requiredFileMessageError);
             $validator->add('employedJobPosition:Posicion de Trabajo', 'required', [], $requiredFileMessageError);
             $validator->add('selectDepartament:Departamento', 'required', [], $requiredFileMessageError);
-            $validator->add('employedTime:Turno', 'required', [], $requiredFileMessageError);
 
             //Aqui guardaremos cada valor recuperado del POST
             $employed['name'] = htmlspecialchars(trim($_POST['employedName']));
@@ -78,14 +77,16 @@ class EmployedController extends BaseController
             $employed['lasted_job'] = htmlspecialchars(trim($_POST['employedLatestJob']));
             $employed['job_position'] = htmlspecialchars(trim($_POST['employedJobPosition']));
             $employed['idDepartament'] = htmlspecialchars(trim($_POST['selectDepartament']));
-            $employed['time'] = htmlspecialchars(trim($_POST['employedTime']));
             $employed['image'] = htmlspecialchars(trim($_POST['employedImage']));
+
+            $idDepartament= $employed['idDepartament'];
+            $departament= Departament::find($idDepartament);
 
             //Compruebo si tengo errores de validacion y si no los tengo entro en este if y guardo e la BD.
             if ($validator->validate($_POST)) {
 
                 //Guardo en la BD
-                $employed = Employed::create([
+                $employed = new Employed([
                     'name' => $employed['name'],
                     'surnames' => $employed['surnames'],
                     'address' => $employed['address'],
@@ -96,11 +97,13 @@ class EmployedController extends BaseController
                     'lasted_studies' => $employed['lasted_studies'],
                     'lasted_job' => $employed['lasted_job'],
                     'job_position' => $employed['job_position'],
-                    'time' => $employed['time'],
                     'image' => $employed['image'],
+                    'departament' => $departament['name']
                 ]);
+
+                $employed->save();
                 // Si se guarda sin problemas se redirecciona la aplicación a la página de inicio
-                header('Location: '. BASE_URL);
+                header('Location: /employed/list');
             } else {
 
                 $errors = $validator->getMessages();
@@ -129,7 +132,7 @@ class EmployedController extends BaseController
         $employed = Employed::find($id);
         $departaments = Departament::query()->orderBy('id', 'desc')->get();
         if (!$employed) {
-            header('Location: homeUser.twig');
+            header('Location: employed/employedList.twig');
         }
 
         return $this->render('employed/formEmployed.twig', [
@@ -154,7 +157,6 @@ class EmployedController extends BaseController
         $errors = array();
 
         if (!empty($_POST)) {
-
             //Validamos los errores
 
             $validator = new Validator();
@@ -167,8 +169,7 @@ class EmployedController extends BaseController
             $validator->add('employedEmail:Email', 'required', [], $requiredFileMessageError);
             $validator->add('employedMovil:Movil', 'required', [], $requiredFileMessageError);
             $validator->add('employedJobPosition:Posicion de Trabajo', 'required', [], $requiredFileMessageError);
-            $validator->add('employedDepartament:Departamento', 'required', [], $requiredFileMessageError);
-            $validator->add('employedTime:Turno', 'required', [], $requiredFileMessageError);
+            $validator->add('selectDepartament:Departamento', 'required', [], $requiredFileMessageError);
 
             //Aqui guardaremos cada valor recuperado del POST
             $employed['id'] = $id;
@@ -181,12 +182,14 @@ class EmployedController extends BaseController
             $employed['lasted_studies'] = htmlspecialchars(trim($_POST['employedLastedStudies']));
             $employed['lasted_job'] = htmlspecialchars(trim($_POST['employedLatestJob']));
             $employed['job_position'] = htmlspecialchars(trim($_POST['employedJobPosition']));
-            $employed['departament'] = htmlspecialchars(trim($_POST['selectDepartament']));
-            $employed['time'] = htmlspecialchars(trim($_POST['employedTime']));
+            $employed['idDepartament'] = htmlspecialchars(trim($_POST['selectDepartament']));
             $employed['image'] = htmlspecialchars(trim($_POST['employedImage']));
 
-            //Compruebo si tengo errores de validacion y si no los tengo entro en este if y guardo e la BD.
+            $idDepartament= $employed['idDepartament'];
+            $departament= Departament::find($idDepartament);
 
+            echo 'paso 1';
+            //Compruebo si tengo errores de validacion y si no los tengo entro en este if y guardo e la BD.
             if ($validator->validate($_POST)) {
                 $employed = Employed::where('id', $id)->update([
                     'id' => $employed['id'],
@@ -195,16 +198,17 @@ class EmployedController extends BaseController
                     'address' => $employed['address'],
                     'postcode' => $employed['postcode'],
                     'email' => $employed['email'],
+                    'idDepartament' => $employed['idDepartament'],
                     'movil' => $employed['movil'],
                     'lasted_studies' => $employed['lasted_studies'],
                     'lasted_job' => $employed['lasted_job'],
                     'job_position' => $employed['job_position'],
-                    'time' => $employed['time'],
                     'image' => $employed['image'],
+                    'departament' => $departament['name']
                 ]);
 
                 // Si se guarda sin problemas se redirecciona la aplicación a la página de inicio
-                header('Location: '. BASE_URL);
+                header('Location: /employed/list');
             } else {
 
                 $errors = $validator->getMessages();
@@ -241,12 +245,13 @@ class EmployedController extends BaseController
 
     public function deleteDlt()
     {
+        echo 'hola';
         $id = $_REQUEST['id'];
 
 
         $employed = Employed::destroy($id);
 
-        header("Location: " . BASE_URL);
+        header("Location: /employed/list");
     }
 
     public function postSearch(){

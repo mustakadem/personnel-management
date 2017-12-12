@@ -20,6 +20,12 @@ class RegisterController extends BaseController
     }
 
     public function postRegister(){
+        $info=[
+            'method' => 'POST',
+            'subtitle'=> 'Register',
+            'title'=> 'Register',
+            'submit' => 'Registrarse'
+        ];
         $errors = [];
         $validator = new Validator();
 
@@ -41,12 +47,12 @@ class RegisterController extends BaseController
 
             $user->save();
 
-            header('Location: login');
+            header('Location: /user/home');
         }else{
             $errors = $validator->getMessages();
         }
 
-        return $this->render('user/register.twig', ['errors' => $errors]);
+        return $this->render('user/register.twig', ['errors' => $errors,'info' => $info]);
     }
 
 }

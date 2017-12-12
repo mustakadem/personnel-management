@@ -1,5 +1,7 @@
 <?php
  namespace App\Controllers;
+
+
  use App\Controllers\Auth\AuthController;
  use App\Controllers\Auth\RegisterController;
  use App\Models\User;
@@ -32,5 +34,11 @@
          $register = new RegisterController();
 
          return $register->postRegister();
+     }
+
+     public function getLogout(){
+         $auth = new AuthController();
+
+         return $auth->getLogout();
      }
  }

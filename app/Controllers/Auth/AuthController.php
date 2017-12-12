@@ -20,6 +20,14 @@ class AuthController extends BaseController{
     }
 
     public function postLogin(){
+        $info=[
+            'method' => 'POST',
+            'subtitle'=> 'Login',
+            'title'=> 'Login',
+            'submit' => 'Entrar'
+        ];
+
+        $passInput= htmlspecialchars(trim($_POST['userPass']));
         echo "paso 1";
         $validador = new Validator();
 
@@ -30,7 +38,7 @@ class AuthController extends BaseController{
         if ($validador->validate($_POST)){
             echo "paso 2";
             $user = User::where('email',$_POST['userEmail'])->first();
-            if (password_verify($_POST['userPass'],$user->password)){
+            if (password_verify($passInput,$user->password)){
                 echo "paso 3";
                 $_SESSION['userId']= $user->id;
                 $_SESSION['userName']= $user->name;
@@ -45,9 +53,19 @@ class AuthController extends BaseController{
         $errors= $validador->getMessages();
 
         return $this->render('user/login.twig',[
+            'info' => $info,
             'errors' => $errors
         ]);
 
+    }
+
+    public function getLogout(){
+
+        unset($_SESSION['userId']);
+        unset($_SESSION['userName']);
+        unset($_SESSION['userEmail']);
+
+        header("Location: ". BASE_URL);
     }
 
 
