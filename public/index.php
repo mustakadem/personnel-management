@@ -39,6 +39,7 @@ $router->controller('/', App\Controllers\HomeController::class);
 $router->controller('/employed', App\Controllers\EmployedController::class);
 $router->controller('/departament', App\Controllers\DepartamentController::class);
 $router->controller('/user', App\Controllers\UserController::class);
+$router->controller('/api', App\Controllers\ApiController::class);
 
 $dispatcher = new Phroute\Phroute\Dispatcher($router->getData());
 
