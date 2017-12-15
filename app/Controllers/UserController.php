@@ -88,4 +88,63 @@
              'user' => $user
          ]);
      }
+
+     public function putConf(){
+         $info=[
+             'subtitle' => 'Edit user configurations',
+             'submit' => 'CONF',
+             'method' => 'PUT'
+         ];
+
+         if (!empty($_POST)) {
+             //Validamos los errores
+
+             //Aqui guardaremos cada valor recuperado del POST
+             $form['userName'] = htmlspecialchars(trim($_POST['userName']));
+             $form['userEmail'] = htmlspecialchars(trim($_POST['userEmail']));
+             $form['pass1']= htmlspecialchars(trim($_POST['pass1']));
+             $form['pass2'] = password_hash($_POST['pass2'], PASSWORD_DEFAULT);
+
+
+             //Compruebo si tengo errores de validacion y si no los tengo entro en este if y actualizo el usuario en la BD.
+            // if ($validator->validate($_POST)) {
+                 $user = User::where('id',$_SESSION['userId'])->first();
+                 if ($form['userName']){
+                     $user = User::where('id', $_SESSION['userId'])->update([
+                         'id' => $_SESSION['userId'],
+                         'name' => $form['userName'],
+                     ]);
+
+                     $_SESSION['userName']=$form['userName'];
+                 }
+                 if ($form['userEmail']){
+                     $user = User::where('id', $_SESSION['userId'])->update([
+                         'id' => $_SESSION['userId'],
+                         'email' => $form['userEmail'],
+                     ]);
+                     $_SESSION['userEmail']=$form['userEmail'];
+                 }
+                 if (password_verify($form['pass1'],$user->password)){
+                     $user = User::where('id', $_SESSION['userId'])->update([
+                     'id' => $_SESSION['userId'],
+                     'password' => $form['pass2']
+                 ]);
+                     // Si se guarda sin problemas se redirecciona la aplicación a la página de inicio de usuario
+
+             }
+                 header('Location: /user/home');
+             }
+
+                 $errors = $validator->getMessages();
+
+     //    }
+
+
+         return $this->render('user/configurations.twig', [
+             'form' => $form,
+             'errors' => $errors,
+             'info' => $info
+         ]);
+
+     }
  }

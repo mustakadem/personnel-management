@@ -21,18 +21,30 @@
 {% endblock %}
 
 {% block content %}
+    <div class="general">
+        <form method="post" id="formulario">
     <h2>{{ info.subtitle }}</h2>
-        <div class="form-group">
-            <label id="nombre">{{ user.name }}</label>
-            <button class="btn btn-primary pull-right" type="submit">{{ info.submit }}</button>
+        <div class="form-group nombre">
+            <label id="labelName">{{ user.name }}</label>
+            <button class="btn btn-primary pull-right" type="button" onclick="generarInputNombre()">{{ info.submit }}</button>
+            {{ generateAlert(errors, 'userName') }}
         </div>
-        <div class="form-group">
-            <label id="email">{{ user.email }}</label>
-            <button class="btn btn-primary pull-right" type="submit">{{ info.submit }}</button>
+        <div class="form-group email">
+            <label>{{ user.email }}</label>
+            <button class="btn btn-primary pull-right" type="button" onclick="generarInputEmail()">{{ info.submit }}</button>
+            {{ generateAlert(errors, 'userEmail') }}
         </div>
-        <div class="form-group">
-            <label id="nombre">Cambiar Password</label>
-            <button class="btn btn-primary pull-right" type="submit">{{ info.submit }}</button>
+        <div class="form-group pass" >
+            <label >Cambiar Password</label>
+            <button class="btn btn-primary pull-right" type="button" onclick="generarInputPass()">{{ info.submit }}</button>
+            {{ generateAlert(errors, 'pass2') }}
         </div>
-
+            <input type="hidden" name="_method" value="PUT">
+            <button class="btn btn-primary" type="submit">Edit</button>
+        </form>
+    </div>
+{% endblock %}
+{% block js%}
+    <script type="application/javascript" src="{{ '' | url }}js/app.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 {% endblock %}
