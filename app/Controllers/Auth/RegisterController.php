@@ -37,6 +37,9 @@ class RegisterController extends BaseController
         $errors = [];
         $validator = new Validator();
 
+        $data['name']=$_POST['userName'];
+        $data['email'] =$_POST['userEmail'];
+
         $validator->add('userName:Name', 'required', [], 'El {label} es obligatorio');
         $validator->add('userName:Nombre', 'minlength', ['min' => 5], 'El {label} debe tener al menos 5 caracteres');
         $validator->add('userEmail:Email', 'required', [], 'El {label} es obligatorio');
@@ -65,7 +68,7 @@ class RegisterController extends BaseController
             $errors = $validator->getMessages();
         }
 
-        return $this->render('user/register.twig', ['errors' => $errors,'info' => $info]);
+        return $this->render('user/register.twig', ['errors' => $errors,'info' => $info, 'data' => $data]);
     }
 
 }

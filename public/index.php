@@ -65,6 +65,7 @@ $router->group(['before' => 'auth'], function ($router) {
     $router->get('/user/home',['\App\Controllers\UserController','getHome']);
     $router->get('/user/logout',['\App\Controllers\UserController','getLogout']);
     $router->get('/user/conf',['\App\Controllers\UserController','getConf']);
+    $router->put('/user/conf',['\App\Controllers\UserController','putConf']);
 
 });
 

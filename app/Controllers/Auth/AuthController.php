@@ -46,18 +46,15 @@ class AuthController extends BaseController{
         if ($validador->validate($_POST)){
             //echo "paso 2";
             $user = User::where('email',$_POST['userEmail'])->first();
-            $pass = $user->password;
-            //echo $pass;
-            if (password_verify($passInput,$pass)){
-                //echo "paso 3";
-                $_SESSION['userId']= $user->id;
-                $_SESSION['userName']= $user->name;
-                $_SESSION['userEmail']=$user->email;
+            if ($user) {
+                if (password_verify($passInput, $user->password)) {
+                    //echo "paso 3";
+                    $_SESSION['userId'] = $user->id;
+                    $_SESSION['userName'] = $user->name;
+                    $_SESSION['userEmail'] = $user->email;
 
-                header('Location: home');
-            }else{
-                var_dump($pass);
-                die();
+                    header('Location: home');
+                }
             }
 
             $validador->addMessage('authError','Los datos son incorrectos');

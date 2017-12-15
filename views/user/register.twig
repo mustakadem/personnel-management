@@ -20,13 +20,13 @@
         <div class="form-group  {% if errors['name'] %} has-error {% endif %}">
             <label for="inputEmail">Name</label>
             <input type="text" id="inputName" class="form-control"
-                   name="userName" placeholder="User Name" autofocus>
+                   name="userName" placeholder="User Name" value="{{ data.name }}" autofocus>
         </div>
         {{ generateAlert(errors, 'userName') }}
         <div class=" form-group  {% if errors['email'] %} has-error {% endif %}">
             <label for="inputEmail">email</label>
             <input type="email" id="inputEmail" class="form-control "
-                   name="userEmail" placeholder="User Email" autofocus>
+                   name="userEmail" placeholder="User Email" value="{{ data.email }}" autofocus>
         </div>
         {{ generateAlert(errors, 'userEmail') }}
 
