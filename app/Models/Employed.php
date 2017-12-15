@@ -4,6 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Employed
+ * @package App\Models  para hacer referencia a la tabla employed y permitir manipular solo los datos que necesitamos
+ */
 class Employed extends Model
 {
     protected $table = 'employed';
