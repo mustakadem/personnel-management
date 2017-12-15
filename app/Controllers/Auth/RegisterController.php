@@ -8,7 +8,10 @@ use Sirius\Validation\Validator;
 
 class RegisterController extends BaseController
 {
-
+    /**
+     * Ruta [GET] user/registro Se carga el formulario del registro.
+     * @return string Render con la info de la web
+     */
     public function getRegister(){
         $info=[
             'method' => 'POST',
@@ -19,6 +22,11 @@ class RegisterController extends BaseController
         return $this-> render('user/register.twig',['info'=>$info]);
     }
 
+    /**
+     * Ruta [POST] user/registro Se recoje el formulario del registro y si es correcto se crea la sesion del usuario
+     * y se redirecciona a la pagina user/home.
+     * @return string Render con los errores de la validacion del formulario.
+     */
     public function postRegister(){
         $info=[
             'method' => 'POST',

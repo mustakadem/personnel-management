@@ -60,7 +60,8 @@ $router->group(['before' => 'auth'], function ($router) {
     $router->get('/departament/edit/{id}',['\App\Controllers\DepartamentController','getEdit']);
     $router->put('/departament/edit/{id}',['\App\Controllers\DepartamentController','putEdit']);
     $router->get('/departament/index/{id}',['\App\Controllers\DepartamentController','getIndex']);
-    $router->delete('/departament/index/{id}',['\App\Controllers\DepartamentController','deleteDlt']);
+    $router->delete('/departament/dlt',['\App\Controllers\DepartamentController','deleteDlt']);
+    $router->get('/departament/404',['\App\Controllers\DepartamentController','get404']);
     $router->get('/user/home',['\App\Controllers\UserController','getHome']);
     $router->get('/user/logout',['\App\Controllers\UserController','getLogout']);
     $router->get('/user/conf',['\App\Controllers\UserController','getConf']);

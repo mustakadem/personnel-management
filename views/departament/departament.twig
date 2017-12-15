@@ -38,7 +38,7 @@
             <h3>Departament Option</h3>
             <div class="form-group">
                 <a class="btn btn-lg btn-success" href="/departament/edit/{{ departament.id }}" role="button">Update</a>
-                <form action="/departament/dlt/{{ departament.id }}" method="POST"
+                <form action="/departament/dlt/" method="POST"
                       id="deleteDepartament-{{ departament.id }}">
                     <input type="hidden" name="id" value="{{ departament.id }}">
                     <input type="hidden" name="_method" value="DELETE">

@@ -8,6 +8,10 @@ use Sirius\Validation\Validator;
 
 class AuthController extends BaseController{
 
+    /**
+     * Ruta [GET] user/login Se carga el formulario del login.
+     * @return string Render con la info de la web
+     */
     public function getLogin(){
         $info=[
             'method' => 'POST',
@@ -16,9 +20,13 @@ class AuthController extends BaseController{
             'submit' => 'Entrar'
         ];
 
-        return $this->render('user/login.twig',['info'=> $info]);
+        return $this->render('user/login.twig',['info' => $info]);
     }
 
+    /**
+     * Ruta [POST] user/login Se recoje el formulario del login y si es correcto se crea la sesion del usuario .
+     * @return string Render con los errores de la validacion del formulario.
+     */
     public function postLogin(){
         $info=[
             'method' => 'POST',
@@ -64,6 +72,9 @@ class AuthController extends BaseController{
 
     }
 
+    /**
+     * Ruta [GET] user/logout Se destruye la session del usuario y se redirecciona a la pagina principal.
+     */
     public function getLogout(){
 
         unset($_SESSION['userId']);

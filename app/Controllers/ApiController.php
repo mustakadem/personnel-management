@@ -4,6 +4,8 @@ namespace App\Controllers;
 use App\Models\Employed;
 
 class ApiController{
+
+
     public function getEmployed($id = null){
         if (is_null($id)) {
             $employed = Employed::all();

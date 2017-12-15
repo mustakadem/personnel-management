@@ -10,6 +10,11 @@ use Sirius\Validation\Validator;
 class DepartamentController extends BaseController
 {
 
+    /**
+     *Ruta [GET] /departament/add muestra el formulario para añadir un nuevo departamento.
+     *
+     * @return string Render de la web con toda la información.
+     */
     public function getAdd()
     {
         $info = [
@@ -21,7 +26,13 @@ class DepartamentController extends BaseController
 
         $errors = array();
 
+        /**
+         * Se crea un array asociativo sin valores
+         */
         $departament = array_fill_keys(["name", "type", "plant"], "");
+        /**
+         * Se crea un array de los tipos de departamentos
+         */
         $types = ['stewardship', 'marketing', 'accounting', 'Human Resources'];
 
         return $this->render('departament/formDepartament.twig', [
@@ -33,6 +44,10 @@ class DepartamentController extends BaseController
 
     }
 
+    /**
+     * Ruta [POST] /departament/add recoge y valida los datos del formulario para añadir un nuevo departamento.
+     * @return string Render con la informacion de errores.
+     */
     public function postAdd()
     {
         $info = [
@@ -82,6 +97,10 @@ class DepartamentController extends BaseController
         ]);
     }
 
+    /**
+     * Ruta [GET] /departament/list Muestra en una tabla todos los departamentos.
+     * @return string Render de la web con toda la información.
+     */
     public function getList()
     {
         $info = [
@@ -99,6 +118,12 @@ class DepartamentController extends BaseController
         ]);
     }
 
+    /**
+     * Ruta [GET] /departament/edit Muestra el mismo formulario que /departament/add pero con los campos rellenados con los datos
+     * del departamento a editar.
+     * @param $id int La funcion esta esperando el id del departamento
+     * @return string Render de la web con toda la información del departamento.
+     */
     public function getEdit($id)
     {
         $info = [
@@ -126,6 +151,11 @@ class DepartamentController extends BaseController
         ]);
     }
 
+    /**
+     * Ruta [PUT] /departament/edit Recoje los datos para actualizar el departamento y devuelve el formulario si hay errores.
+     * @param $id int La funcion esta esperando el id del departamento.
+     * @return string Render de la web con toda la información del departamento.
+     */
     public function putEdit($id)
     {
         $info = [
@@ -177,6 +207,11 @@ class DepartamentController extends BaseController
         ]);
     }
 
+    /**
+     *  Ruta [GET] /departament/index/ Muestra toda la informacion en una vista detalle del departamento
+     * @param $id int La funcion esta esperando el id del departamento.
+     * @return string  Render de la web con toda la información del departamento.
+     */
     public function getIndex($id)
     {
         $departament = Departament::find($id);
@@ -193,27 +228,41 @@ class DepartamentController extends BaseController
         ]);
     }
 
-    public function deleteDlt($id)
+    /**
+     * Ruta [DELETE] /departament/dlt Borra un departamento recogiendo el id de un input hidden.
+     * @return string Render de la web si el departamento contiene empleados.
+     */
+    public function deleteDlt()
     {
+        $id = $_REQUEST['id'];
         $departament = Departament::find($id);
+        /**
+         * Compruebo si algun employed pertenece a un departamento y calculo el total.
+         */
         $total = Employed::where('idDepartament', $departament['id'])->count();
         if ($total <= 0) {
             $departament = Departament::destroy($id);
             header("Location: /departament/list");
-        }else{
-            $info=[
-                'page' => 'Departamento',
+        } else {
+            $info = [
                 'error' => 'El departamento que desea borrar contiene Empleados, elimine o cambie a los empleados de departamento',
-                'consuelo' => 'Todo se arregla pulsando atras'
+                'submitRedirect' => 'Volver a la lista de departamentos',
+                'url' => 'departament/list'
             ];
-
-            $this->render('user/homeUser.twig',[
+           return $this->render('layout404.twig', [
                 'info' => $info
             ]);
         }
     }
 
-
+    /**
+     * Ruta [GET] /departament/404 Esta funcion es para cargar la pagina layout404.twig
+     * @return string Render de la web con la informacion del error.
+     */
+    public function get404()
+    {
+        return $this->render('layout404.twig', []);
+    }
 
 
 }

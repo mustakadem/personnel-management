@@ -87,6 +87,12 @@ input{
     border-radius: 0;
 }
 
+.error{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 /**
     CSS FOOTER
  */

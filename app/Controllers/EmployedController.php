@@ -9,6 +9,10 @@ use Sirius\Validation\Validator;
 class EmployedController extends BaseController
 {
 
+    /**
+     * Ruta [GET] /employed/list Muestra en una tabla todos los employeds.
+     * @return string Render de la web con toda la información.
+     */
     public function getList()
     {
         $employed = Employed::query()->orderBy('id', 'desc')->get();
@@ -18,7 +22,11 @@ class EmployedController extends BaseController
         ]);
     }
 
-
+    /**
+     *Ruta [GET] /employed/add muestra el formulario para añadir un nuevo employed.
+     *
+     * @return string Render de la web con toda la información.
+     */
     public function getAdd()
     {
         $info = [
@@ -31,6 +39,8 @@ class EmployedController extends BaseController
         $errors = array();
         // En employed se crea un array asociativo con las siquientes keys .
         $employed = array_fill_keys(["name", "surnames", "address", "postcode", "email", "movil", "idDepartament","lasted_studies", "lasted_job", "job_position", "image","departament"], "");
+
+        //En esta variable se guardan todos los departamentos para generar el select en la vista
         $departaments = Departament::query()->orderBy('id', 'desc')->get();
 
         return $this->render('employed/formEmployed.twig', [
@@ -41,6 +51,10 @@ class EmployedController extends BaseController
         ]);
     }
 
+    /**
+     * Ruta [POST] /employed/add recoge y valida los datos del formulario para añadir un nuevo employed.
+     * @return string Render con la informacion de errores.
+     */
     public function postAdd()
     {
         $info = [
@@ -119,6 +133,12 @@ class EmployedController extends BaseController
 
     }
 
+    /**
+     * Ruta [GET] /employed/edit Muestra el mismo formulario que /employed/add pero con los campos rellenados con los datos
+     * del employed a editar.
+     * @param $id int La funcion esta esperando el id del employed
+     * @return string Render de la web con toda la información del employed.
+     */
     public function getEdit($id)
     {
         $info = [
@@ -143,6 +163,11 @@ class EmployedController extends BaseController
         ]);
     }
 
+    /**
+     * Ruta [PUT] /employed/edit Recoje los datos para actualizar el employed y devuelve el formulario si hay errores.
+     * @param $id int La funcion esta esperando el id del employed.
+     * @return string Render de la web con toda la información del employed.
+     */
     public function putEdit($id)
     {
         $info = [
@@ -223,7 +248,11 @@ class EmployedController extends BaseController
         ]);
     }
 
-
+    /**
+     *  Ruta [GET] /employed/index/ Muestra toda la informacion en una vista detalle del employed
+     * @param $id int La funcion esta esperando el id del employed.
+     * @return string  Render de la web con toda la información del employed.
+     */
     public function getIndex($id)
     {
 
@@ -243,26 +272,34 @@ class EmployedController extends BaseController
         ]);
     }
 
+    /**
+     * Ruta [DELETE] /employed/dlt Borra un employed recogiendo el id de un input hidden.
+     */
     public function deleteDlt()
     {
-        echo 'hola';
         $id = $_REQUEST['id'];
-
-
         $employed = Employed::destroy($id);
-
         header("Location: /employed/list");
     }
 
+    /**
+     * Ruta [POST] /employed/search Busca todos los empleados que cumplan con la condicion name recogido del input.
+     * @return string Render de la web con la informacion de los employed encontrados o un 404 si no hay ninguno
+     */
     public function postSearch(){
+        $info = [
+            'error' => 'El usuario no existe',
+            'submitRedirect' => 'Volver a la lista de empleados',
+            'url' => 'employed/list'
+        ];
 
         $name= $_REQUEST['userNameSearch'];
 
         $employed = Employed::where('name',$name)->get();
 
 
-         if (!$employed){
-             return $this->render('employed/listEmployed.twig',[]);
+         if (isset($employed)){
+             return $this->render('layout404.twig',['info' =>  $info]);
          }
 
          return $this->render('employed/listEmployed.twig',[
